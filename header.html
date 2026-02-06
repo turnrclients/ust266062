@@ -1,0 +1,173 @@
+<header id="page-header" class="header-41 header-41--sticky">
+
+
+
+	<!-- logo + nav -->
+	<div class="header-41-holder">
+		<div class="container">
+			<div class="row">
+
+				<!-- logo -->
+				<div class="col-xs-6 col-sm-3">
+					<a href="home.html" class="header-41-logo">
+						<img src="assets/images/logo-header-41.png" alt="Portfolio" class="img-responsive">
+					</a>
+				</div>
+
+				<!-- nav -->
+				<div class="col-xs-6 col-sm-9">
+					<nav class="navbar navbar-default header-41-navbar" role="navigation">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+								data-target="#dynamic-header">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span><span class="icon-bar"></span><span
+									class="icon-bar"></span>
+							</button>
+						</div>
+
+						<div class="collapse navbar-collapse" id="dynamic-header">
+							<ul class="nav navbar-nav navbar-right main-navigation text-uppercase font-lato">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="About.html">About</a></li>
+								<li><a href="Portfolio.html">Portfolio</a></li>
+								<li><a href="Blog.html">Blog</a></li>
+								<li><a href="Contact.html">Contact</a></li>
+							</ul>
+						</div>
+
+					</nav>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</header>
+
+
+<section class="header-41-hero main-header-section">
+	<div class="hero-content">
+		<h1 style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px);">
+			Crafting<br>Digital Portfolios</h1>
+	</div>
+
+
+	<div class="image-reel">
+		<img src="assets/images/header-41.1.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 0.6; transform: translate(-634.433%, 0%) translate3d(-360px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+		<img src="assets/images/header-41.2.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 0.7; transform: translate(-634.433%, 0%) translate3d(-270px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+		<img src="assets/images/header-41.3.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 0.8; transform: translate(-634.433%, 0%) translate3d(-180px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+		<img src="assets/images/header-41.4.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 0.9; transform: translate(-634.433%, 0%) translate3d(-90px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+		<img src="assets/images/header-41.5.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(-634.433%, 0%) translate3d(0px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+		<img src="assets/images/header-41.6.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 0.9; transform: translate(-634.433%, 0%) translate3d(90px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+		<img src="assets/images/header-41.7.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 0.8; transform: translate(-634.433%, 0%) translate3d(180px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+		<img src="assets/images/header-41.8.jpg" alt=""
+			style="translate: none; rotate: none; scale: none; opacity: 0.7; transform: translate(-634.433%, 0%) translate3d(270px, 0px, -227.667px) rotateY(10deg) scale(0.6);">
+	</div>
+</section>
+
+<script>
+	const reel = document.querySelector(".header-41-hero .image-reel");
+	const imgs = gsap.utils.toArray(".header-41-hero .image-reel img");
+
+	function setCurvedLayout() {
+		const mid = Math.floor(imgs.length / 2);
+		imgs.forEach((img, i) => {
+			const offset = i - mid;
+
+			// Reduced gap + flatter rotation
+			gsap.set(img, {
+				x: offset * 90,                 // reduced gap (was 120)
+				z: -Math.abs(offset) * 180,     // slightly shallower depth
+				rotationY: offset * -12,        // flatter rotation (was -18)
+				scale: 1 - Math.abs(offset) * 0.1,
+				opacity: 1 - Math.abs(offset) * 0.1,
+			});
+		});
+	}
+	setCurvedLayout();
+
+	// Continuous looping animation
+	gsap.to(imgs, {
+		xPercent: -100 * (imgs.length - 1),
+		duration: 9, // slightly faster speed (was 10)
+		ease: "none",
+		repeat: -1,
+		modifiers: {
+			xPercent: gsap.utils.wrap(-100 * imgs.length, 0),
+		},
+		onUpdate: () => {
+			const mid = Math.floor(imgs.length / 2);
+			imgs.forEach((img, i) => {
+				const rect = img.getBoundingClientRect();
+				const centerX = window.innerWidth / 2;
+				const distance = (rect.left + rect.width / 2) - centerX;
+				const normalized = Math.min(Math.abs(distance) / centerX, 1);
+
+				// Flatter + dynamic rotation to make front image face viewer
+				const rotationY = -normalized * 10 * Math.sign(distance);
+				const scale = 1 - normalized * 0.4;
+				const z = -Math.abs(distance) / 3;
+
+				gsap.set(img, { rotationY, scale, z });
+			});
+		}
+	});
+
+	// Text animation on scroll
+	gsap.from(".header-41-hero h1", {
+		y: 100,
+		opacity: 0,
+		duration: 1.2,
+		scrollTrigger: {
+			trigger: ".header-41-hero",
+			start: "top 80%",
+		}
+	});
+
+	gsap.from(".header-41-hero p", {
+		y: 50,
+		opacity: 0,
+		duration: 1,
+		delay: 0.3,
+		scrollTrigger: {
+			trigger: ".header-41-hero",
+			start: "top 85%",
+		}
+	});
+</script>
+
+
+
+<script>
+	$(function () {
+
+		var $header = $('#page-header');
+		var heroHeight = $('.header-41-hero').outerHeight();   // distance to scroll
+
+		/* toggle class on scroll */
+		$(window).on('scroll', function () {
+			if ($(this).scrollTop() >= heroHeight) {
+				$header.addClass('header-41--sticky');
+			} else {
+				$header.removeClass('header-41--sticky');
+			}
+		});
+
+	});
+</script>
+<section class="header-breadcrumb-section"
+	style="background: url('assets/images/header-breadcrumb-section-bg.jpg') center center / cover no-repeat;">
+	<div class="container text-center">
+		<h1 class="header-breadcrumb-section-title"><span class="Page_name">Page Name</span></h1>
+		<p class="header-breadcrumb-section-breadcrumb">
+			<a href="index.html">Home</a> &gt; <span class="Page_name">Page Name</span>
+		</p>
+	</div>
+</section>
