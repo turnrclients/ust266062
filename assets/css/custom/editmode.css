@@ -3,9 +3,9 @@
     /* border-radius: 6px;
     padding: 2px; */
 }
-.editableSection{
+/* .editableSection{
     margin-top: 52px;
-}
+} */
 
 /*
 .edit-mode .editable:hover {
@@ -68,15 +68,15 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
    border-bottom: 1px solid #d4d4d4;
 }
-body {
+body.editableSection{
   padding-top: 52px;   /* reserve space for top-bar */
 }
 #wrapper {
   position: relative;
 }
 
-body header,
-body #page-header {
+body.editableSection header,
+body.editableSection #page-header {
   top: 52px;
 }
 
