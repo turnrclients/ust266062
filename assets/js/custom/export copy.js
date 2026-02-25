@@ -1063,10 +1063,7 @@ console.log("projectName:", getCookie("projectName"));
             /* ================= PREVIEW SHELL ================= */
 
             function injectPreviewShell(newTab, pageHtml) {
-                const iconLink = newTab.document.createElement("link");
-                iconLink.rel = "stylesheet";
-                iconLink.href = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css";
-                newTab.document.head.appendChild(iconLink);
+
                 newTab.document.body.innerHTML = `
                     <style>
                     body {
@@ -1100,7 +1097,7 @@ console.log("projectName:", getCookie("projectName"));
                     }
 
                     .preview-btn.active {
-                        background: linear-gradient(135deg, #e39a4e, #fb1b1b);
+                        background: #5865f2;
                         opacity: 1;
                     }
 
@@ -1137,106 +1134,12 @@ console.log("projectName:", getCookie("projectName"));
                     }
 
                     .hidden { display: none; }
-                    .preview-btn {
-                        position: relative;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    /* ================= Tooltip Base ================= */
-
-                    .preview-btn::after {
-                        content: attr(data-tooltip);
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-50%) translateX(0) scale(.95);
-                        background: #333749;
-                        color: #fff;
-                        padding: 7px 14px;
-                        font-size: 13px;
-                        border-radius: 10px;
-                        white-space: nowrap;
-                        opacity: 0;
-                        pointer-events: none;
-                        transition: all .25s ease;
-                        box-shadow: 0 12px 30px rgba(0,0,0,.4);
-                        z-index: 1000;
-                        margin-left: 2px;
-                    }
-
-                    /* Show on hover */
-                    .preview-btn:hover::after {
-                        opacity: 1;
-                        transform: translateY(-50%) scale(1);
-                    }
-
-                    /* ================= Positioning ================= */
-
-                    /* Desktop → Tooltip on LEFT */
-                    .preview-btn[data-position="left"]::after {
-                        right: 115%;
-                    }
-
-                    /* Mobile → Tooltip on RIGHT */
-                    .preview-btn[data-position="right"]::after {
-                        left: 115%;
-                    }
-
-                    /* ================= Arrow (Notch) ================= */
-
-                    .preview-btn::before {
-                        content: "";
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-50%) scale(.9);
-                        width: 0;
-                        height: 0;
-                        opacity: 0;
-                        transition: all .25s ease;
-                        z-index: 999;
-                    }
-
-                    /* Show arrow on hover */
-                    .preview-btn:hover::before {
-                        opacity: 1;
-                        transform: translateY(-50%) scale(1);
-                    }
-
-                    /* Arrow for Desktop (right side of tooltip) */
-                    .preview-btn[data-position="left"]::before {
-                        right: 99%;
-                        border-top: 6px solid transparent;
-                        border-bottom: 6px solid transparent;
-                        border-left: 8px solid #404459;
-                    }
-
-                    /* Arrow for Mobile (left side of tooltip) */
-                    .preview-btn[data-position="right"]::before {
-                        left: 99%;
-                        border-top: 6px solid transparent;
-                        border-bottom: 6px solid transparent;
-                        border-right: 8px solid #404459;
-                    }
-
                     </style>
 
                     <div class="preview-topbar">
-                        <button id="desktopBtn"
-                            class="preview-btn active"
-                            data-tooltip="Desktop Preview"
-                            data-position="left">
-                            <i class="bi bi-display"></i>
-                        </button>
-
-                        <button id="mobileBtn"
-                            class="preview-btn"
-                            data-tooltip="Mobile Preview"
-                            data-position="right">
-                            <i class="bi bi-phone"></i>
-                        </button>
+                        <button id="desktopBtn" class="preview-btn active">🖥️</button>
+                        <button id="mobileBtn" class="preview-btn">📱</button>
                     </div>
-
 
                     <div class="preview-body">
                         <div id="desktopView" class="desktop-frame">

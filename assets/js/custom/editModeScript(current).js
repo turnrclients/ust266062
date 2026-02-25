@@ -733,6 +733,7 @@ $(document).on('hidden.bs.modal', '#imagePickerModal', function () {
                     $('.aiBotImage').each(function() {
                     $(this).addClass('jumping');
                 });
+                enableSocialLinkEditing();
 
         } else {
             wrapper.find('*').removeClass('editable');
@@ -1057,6 +1058,9 @@ $(document).on('click', '.aiBotImage', function () {
 
     // Handle editing
     function handleAnchorEdit(e) {
+        if ($(this).hasClass('editable-social')) {  // for socialmedia trigger
+        return;
+    }
         e.stopPropagation();
         var anchor = $(this);
         if (!isEditingContent) return;
@@ -1264,6 +1268,25 @@ function initializeInputEditor(anchor) {
     }
 
     saveChanges.on('click', function () {
+            $('.selectedPageName').remove();
+            $('[id="top-bar"]').not(':first').remove();
+            $('#page-header').removeClass('sticky-active');
+            $('#wrapper').removeClass('editableSection');
+        const scriptSrcsToDedup = [
+            'assets/js/middle-section.js',
+            '/assets/css/custom/editmode.js',
+            '/assets/ai_model_bridge.js',
+            '/assets/js/custom/main.js',
+            '/assets/js/custom/editModeScript.js'
+        ];
+
+        scriptSrcsToDedup.forEach(src => {
+            const $scripts = $(`script[src="${src}"]`);
+            $scripts.not(':first').remove();
+        });
+
+
+
         isEditingContent = false;
         isEditingImages = false;
         toggleEditableClasses(false);
@@ -1287,7 +1310,6 @@ function initializeInputEditor(anchor) {
         // Hide edit buttons and show save changes button
         enableEditMode.removeClass('hidden');
         saveChanges.addClass('hidden').prop('disabled', true);
-        topBar.addClass('hidden');
         $('#image-upload').remove();
         $('a.edit-site').removeClass('edit-site');
         $('a').addClass('edit-site').css('cursor', 'pointer');
@@ -1297,16 +1319,7 @@ function initializeInputEditor(anchor) {
             dynamicSliderWrapper.html(SliderContentOldHTML);
         }
 
-        // Remove unnecessary scripts and styles
-        $('script[src="assets/js/custom/editmode.js"]').remove();
-        $('link[href="https://cdn.quilljs.com/1.3.6/quill.snow.css"]').remove();
-        $('link[href="assets/css/custom/custom.css"]').remove();
-        $('script[src="https://cdn.quilljs.com/1.3.6/quill.min.js"]').remove();
-        $('script[src="assets/js/custom/main.js"]').remove();
-        $('script[src="assets/js/custom/editModeScript.js"]').remove();
-        editedHTML.find('a.edit-site').removeClass('edit-site');
-        editedHTML.find('#page-header').removeClass('sticky-active');
-        editedHTML.find('[id="top-bar"]').remove();
+
         const addressEl = document.querySelector('.business-address');
         if (addressEl) {
             const newAddress = addressEl.innerText.trim();
@@ -1319,6 +1332,12 @@ function initializeInputEditor(anchor) {
         }
         // Clone the HTML and clean up
         var editedHTML = $('html').clone();
+        editedHTML.find('.editable, .editable-image').removeClass('editable editable-image');
+        editedHTML.find('a.edit-site').removeClass('edit-site');
+        editedHTML.find('#imgForm').remove();
+        editedHTML.find('.selectedPageName').remove();
+        editedHTML.find('#page-header').removeClass('sticky-active');
+        editedHTML.find('#wrapper').removeClass('editableSection');
 
         // SCRIPTS WHICH HAVE BEEN ADDED FROM THE BACKEND HAS TO BE REMOVE BEFORE SAVE
         // editedHTML.find('script[src*="editmode"]').remove();
@@ -1447,6 +1466,7 @@ const SOCIAL_DOMAIN_RULES = {
 
 // Enable social link editing in edit mode
 function enableSocialLinkEditing() {
+
     // Prevent duplicate bindings
     $(document).off('click.socialEdit');
 
@@ -1456,7 +1476,7 @@ function enableSocialLinkEditing() {
         if (!isEditingContent) return;
 
         e.preventDefault();
-        e.stopImmediatePropagation(); //
+        e.stopImmediatePropagation();
         changesInMainContent = true;
         // Remove existing editor
         $('.social-link-editor').remove();
@@ -1475,10 +1495,14 @@ function enableSocialLinkEditing() {
 
         $('body').append(editor);
 
-        editor.css({
-            top: offset.top - editor.outerHeight() - 8,
-            left: offset.left
-        });
+            const editorWidth = editor.outerWidth();
+            const editorHeight = editor.outerHeight();
+            const iconWidth = $link.outerWidth();
+
+            editor.css({
+                top: offset.top - editor.outerHeight() - 68,
+                left: offset.left - 10
+            });
 
         // Prevent editor click from closing itself
         editor.on('click', function (ev) {
@@ -1490,8 +1514,8 @@ function enableSocialLinkEditing() {
             const newHref = editor.find('input').val().trim();
             if (!newHref) return;
 
-            $link.attr('hrefcustom', newHref);   // store real value   // New Code
-            $link.attr('href', 'javascript:void(0)'); // disable navigation
+            $link.attr('hrefcustom', newHref);
+            $link.attr('href', 'javascript:void(0)');
             changesInFooter = true;
             editor.remove();
 

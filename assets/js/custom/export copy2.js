@@ -1,131 +1,3 @@
-// ==============Custom alert========================
-function injectCustomAlertCSS() {
-    if (document.getElementById('custom-alert-style')) return;
-
-    const style = document.createElement('style');
-    style.id = 'custom-alert-style';
-    style.innerHTML = `
-        .custom-alert-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 99997;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .custom-alert-backdrop.show {
-            opacity: 1;
-        }
-
-        .custom-alert-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -60%) scale(0.95);
-            opacity: 0;
-            z-index: 99998;
-            width: 100%;
-            max-width: 420px;
-            font-family: 'Quicksand', sans-serif;
-            transition: transform 0.35s ease, opacity 0.35s ease;
-            pointer-events: none;
-        }
-
-        .custom-alert-popup.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .custom-alert-content {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-            text-align: center;
-            padding: 30px 26px;
-        }
-
-        .custom-alert-message {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 22px;
-        }
-
-        .custom-alert-popup.success .custom-alert-message {
-            color: #28a745;
-        }
-
-        .custom-alert-popup.error .custom-alert-message {
-            color: #dc3545;
-        }
-
-        .custom-alert-ok-btn {
-            background: linear-gradient(135deg, #e39a4e, #fb1b1b);
-            color: #fff;
-            border: none;
-            padding: 10px 36px;
-            border-radius: 230px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-
-        .custom-alert-ok-btn:hover {
-            opacity: 0.9;
-        }
-
-        body.custom-alert-open {
-            overflow: hidden;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function showCustomAlertBox(type = 'error', message = 'Something went wrong', onOk) {
-
-    injectCustomAlertCSS();
-
-    // normalize type
-    type = (type === 'success') ? 'success' : 'error';
-
-    // fallback message safety
-    if (!message || message.trim() === '') {
-        message = 'Something went wrong';
-    }
-
-    const backdrop = document.createElement('div');
-    backdrop.className = 'custom-alert-backdrop show';
-
-    const popup = document.createElement('div');
-    popup.className = `custom-alert-popup ${type} show`;
-
-    popup.innerHTML = `
-        <div class="custom-alert-content">
-            <div class="custom-alert-message">${message}</div>
-            <button class="custom-alert-ok-btn">OK</button>
-        </div>
-    `;
-
-    document.body.appendChild(backdrop);
-    document.body.appendChild(popup);
-    document.body.classList.add('custom-alert-open');
-
-    function close() {
-        backdrop.remove();
-        popup.remove();
-        document.body.classList.remove('custom-alert-open');
-        if (typeof onOk === 'function') onOk();
-    }
-
-    popup.querySelector('.custom-alert-ok-btn').onclick = close;
-    backdrop.onclick = close;
-}
-
-// =========================================================
-
-
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -445,7 +317,7 @@ const SEOData = {
 
     const filteredFooterPages = FooterPages.filter(page => !headerPages.includes(page));
     if (globalHeader.indexOf("header")!=0 || globalFooter.indexOf("footer")!=0) {
-       alert('You forgot to add Header or Footer for your website so please add before proceeding further.');
+        alert('You forgot to add Header or Footer for your website so please add before proceeding further.');
         return;
     }
 
@@ -929,7 +801,7 @@ allSectionsOfPage.forEach(sectionId => {
 
 
             <script src="assets/js/common_js/send_email.js"></script>
-
+            
             <script src="assets/js/common_js/html_image_editor.js"></script>
             <script src="assets/js/common_js/windows_postmessage.js"></script>
 
@@ -992,8 +864,7 @@ function uploadFilesData(filesDetailsMap) {
     filesDetailsMap["clientName"] =  getCookie("clientName");
     filesDetailsMap["clientProjectName"] =  getCookie("projectName");
     // filesDetailsMap["reqFor"] =  "preview";
-console.log("clientName:", getCookie("clientName"));
-console.log("projectName:", getCookie("projectName"));
+
     $.ajax({
         type: 'POST',
         url: "indexOld/",
@@ -1005,14 +876,14 @@ console.log("projectName:", getCookie("projectName"));
             "X-CSRFToken": getCookie("csrftoken"),  // don't forget to include the 'getCookie' function
         },
         success: function (data) {
-           showCustomAlertBox('success', 'Uploaded the data');
-        //   alert("Uploaded the data");
+          alert("Uploaded the data");
           $('#loading-message').remove();
             // Clear all cookies
             // clearAllCookies();
             // location.reload();
         // $('#openIndex').trigger('click', [getCookie("clientName"), getCookie("projectName"),true]);
-        openPreview();
+        openPreview()
+
         },
         error: function (xhr, errmsg, err) {
             console.log("Error----"+ xhr.responseText);
@@ -1020,323 +891,38 @@ console.log("projectName:", getCookie("projectName"));
         }
       });
 }
-// for preview in mobile and desktop view in one frame
-        function openPreview() {
-
-            var filename = "index.html";
-            var clientName = getCookie('clientName');
-            var clientProjectName = getCookie('projectName');
-
-            setCookie('preview', 'true', 7);
-
-            $.ajax({
-                type: 'POST',
-                url: "es/",
-                data: {
-                    clientName: clientName,
-                    clientProjectName: clientProjectName,
-                    srcReq: filename
-                },
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                success: function (data) {
-
-                    var newTab = window.open(`/es/?srcReq=${filename}`, "_blank");
-
-                    var interval = setInterval(function () {
-                        try {
-                            if (newTab.document && newTab.document.readyState === 'complete') {
-                                clearInterval(interval);
-                                injectPreviewShell(newTab, data);
-                            }
-                        } catch (e) {}
-                    }, 50);
-                },
-                error: function (err) {
-                    alert(err.responseJSON?.errorMessage || 'Something went wrong');
-                }
-            });
-
-            return false;
-
-            /* ================= PREVIEW SHELL ================= */
-
-            function injectPreviewShell(newTab, pageHtml) {
-                const iconLink = newTab.document.createElement("link");
-                iconLink.rel = "stylesheet";
-                iconLink.href = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css";
-                newTab.document.head.appendChild(iconLink);
-                newTab.document.body.innerHTML = `
-                    <style>
-                    body {
-                        margin: 0;
-                        background: #1f222b;
-                        font-family: system-ui, -apple-system, Segoe UI;
-                        height: 100vh;
-                        overflow: hidden;
-                    }
-
-                    .preview-topbar {
-                        height: 56px;
-                        background: #2a2d38;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        gap: 14px;
-                        border-bottom: 1px solid rgba(255,255,255,.1);
-                    }
-
-                    .preview-btn {
-                        width: 42px;
-                        height: 42px;
-                        border-radius: 10px;
-                        border: none;
-                        background: #3a3f55;
-                        color: #fff;
-                        cursor: pointer;
-                        font-size: 18px;
-                        opacity: .6;
-                    }
-
-                    .preview-btn.active {
-                        background: linear-gradient(135deg, #e39a4e, #fb1b1b);
-                        opacity: 1;
-                    }
-
-                    .preview-body {
-                        height: calc(100vh - 56px);
-                        display: flex;
-                        justify-content: center;
-                        align-items: flex-start;
-                        padding: 20px;
-                        overflow: auto;
-                    }
-
-                    .desktop-frame {
-                        width: 100%;
-                        height: 100%;
-                    }
-
-                    .mobile-frame {
-                        width: 390px;
-                        height: calc(100vh - 56px - 40px);
-                        max-height: 720px;
-                        background: #000;
-                        border-radius: 30px;
-                        padding: 10px;
-                        box-shadow: 0 25px 60px rgba(0,0,0,.6);
-                    }
-
-                    iframe {
-                        width: 100%;
-                        height: 100%;
-                        border: none;
-                        background: #fff;
-                        border-radius: 22px;
-                    }
-
-                    .hidden { display: none; }
-                    .preview-btn {
-                        position: relative;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    /* ================= Tooltip Base ================= */
-
-                    .preview-btn::after {
-                        content: attr(data-tooltip);
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-50%) translateX(0) scale(.95);
-                        background: #333749;
-                        color: #fff;
-                        padding: 7px 14px;
-                        font-size: 13px;
-                        border-radius: 10px;
-                        white-space: nowrap;
-                        opacity: 0;
-                        pointer-events: none;
-                        transition: all .25s ease;
-                        box-shadow: 0 12px 30px rgba(0,0,0,.4);
-                        z-index: 1000;
-                        margin-left: 2px;
-                    }
-
-                    /* Show on hover */
-                    .preview-btn:hover::after {
-                        opacity: 1;
-                        transform: translateY(-50%) scale(1);
-                    }
-
-                    /* ================= Positioning ================= */
-
-                    /* Desktop → Tooltip on LEFT */
-                    .preview-btn[data-position="left"]::after {
-                        right: 115%;
-                    }
-
-                    /* Mobile → Tooltip on RIGHT */
-                    .preview-btn[data-position="right"]::after {
-                        left: 115%;
-                    }
-
-                    /* ================= Arrow (Notch) ================= */
-
-                    .preview-btn::before {
-                        content: "";
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-50%) scale(.9);
-                        width: 0;
-                        height: 0;
-                        opacity: 0;
-                        transition: all .25s ease;
-                        z-index: 999;
-                    }
-
-                    /* Show arrow on hover */
-                    .preview-btn:hover::before {
-                        opacity: 1;
-                        transform: translateY(-50%) scale(1);
-                    }
-
-                    /* Arrow for Desktop (right side of tooltip) */
-                    .preview-btn[data-position="left"]::before {
-                        right: 99%;
-                        border-top: 6px solid transparent;
-                        border-bottom: 6px solid transparent;
-                        border-left: 8px solid #404459;
-                    }
-
-                    /* Arrow for Mobile (left side of tooltip) */
-                    .preview-btn[data-position="right"]::before {
-                        left: 99%;
-                        border-top: 6px solid transparent;
-                        border-bottom: 6px solid transparent;
-                        border-right: 8px solid #404459;
-                    }
-
-                    </style>
-
-                    <div class="preview-topbar">
-                        <button id="desktopBtn"
-                            class="preview-btn active"
-                            data-tooltip="Desktop Preview"
-                            data-position="left">
-                            <i class="bi bi-display"></i>
-                        </button>
-
-                        <button id="mobileBtn"
-                            class="preview-btn"
-                            data-tooltip="Mobile Preview"
-                            data-position="right">
-                            <i class="bi bi-phone"></i>
-                        </button>
-                    </div>
 
 
-                    <div class="preview-body">
-                        <div id="desktopView" class="desktop-frame">
-                            <iframe id="desktopIframe"></iframe>
-                        </div>
+function openPreview(){
+    //alert('hello...........')
+      var filename = "index.html";
+        var clientName = getCookie('clientName');
+        var clientProjectName = getCookie('projectName');
+        setCookie('preview','true',7)
 
-                        <div id="mobileView" class="mobile-frame hidden">
-                            <iframe id="mobileIframe"></iframe>
-                        </div>
-                    </div>
-                `;
+        $.ajax({
+            type: 'POST',
+            url: "es/",
+            data: {
+            'clientName': clientName,
+            'clientProjectName': clientProjectName,
+            'srcReq': filename,
+            },
+            headers: {
+                 "X-Requested-With": "XMLHttpRequest",
+            },
+            success: function (data) {
+                console.log('data: ', data)
+                window.open(`/es/?srcReq=${filename}`, "_blank");
 
-                const desktopIframe = newTab.document.getElementById('desktopIframe');
-                const mobileIframe  = newTab.document.getElementById('mobileIframe');
 
-                desktopIframe.onload = () => hideTopBar(desktopIframe.contentDocument);
-                mobileIframe.onload  = () => hideTopBar(mobileIframe.contentDocument);
-
-                desktopIframe.contentDocument.open();
-                desktopIframe.contentDocument.write(pageHtml);
-                desktopIframe.contentDocument.close();
-
-                mobileIframe.contentDocument.open();
-                mobileIframe.contentDocument.write(pageHtml);
-                mobileIframe.contentDocument.close();
-
-                const desktopBtn = newTab.document.getElementById('desktopBtn');
-                const mobileBtn  = newTab.document.getElementById('mobileBtn');
-                const desktopView = newTab.document.getElementById('desktopView');
-                const mobileView  = newTab.document.getElementById('mobileView');
-
-                desktopBtn.onclick = () => {
-                    desktopView.classList.remove('hidden');
-                    mobileView.classList.add('hidden');
-                    desktopBtn.classList.add('active');
-                    mobileBtn.classList.remove('active');
-                };
-
-                mobileBtn.onclick = () => {
-                    mobileView.classList.remove('hidden');
-                    desktopView.classList.add('hidden');
-                    mobileBtn.classList.add('active');
-                    desktopBtn.classList.remove('active');
-                };
+            },
+            error: function (data, errmsg, err) {
+                alert(data.responseJSON.errorMessage);
             }
-
-            function hideTopBar(doc) {
-                let tries = 0;
-                const i = setInterval(() => {
-                    const bar = doc.getElementById('top-bar');
-                    if (bar) {
-                        bar.style.display = 'none';
-                        clearInterval(i);
-                    }
-                    if (++tries > 50) clearInterval(i);
-                }, 100);
-            }
-        }
-
-
-
-
-// function openPreview(){
-//     //alert('hello...........')
-//       var filename = "index.html";
-//         var clientName = getCookie('clientName');
-//         var clientProjectName = getCookie('projectName');
-//         setCookie('preview','true',7)
-
-//         $.ajax({
-//             type: 'POST',
-//             url: "es/",
-//             data: {
-//             'clientName': clientName,
-//             'clientProjectName': clientProjectName,
-//             'srcReq': filename,
-//             },
-//             headers: {
-//                  "X-Requested-With": "XMLHttpRequest",
-//             },
-//             success: function (data) {
-//                 console.log('data: ', data)
-//                 window.open(`/es/?srcReq=${filename}`, "_blank");
-
-
-//             },
-//             error: function (data, errmsg, err) {
-//                 alert(data.responseJSON.errorMessage);
-//             }
-//           });
-//           return false;
-//  }
-
-
-
-
-
-
-
-
+          });
+          return false;
+ }
 
 
 function cleanPageName(pageName) {
@@ -1453,49 +1039,21 @@ function generateFooterLinks() {
 
             // On export button click
             $('#export-btn').off('click').on('click', function () {
+            const clientName = getCookie("clientName");
+            const projectName = getCookie("projectName");
+            const theme = selectedThemeClass || 'theme-1'; // fallback
 
-                const clientName = getCookie("clientName");
-                const projectName = getCookie("projectName");
-                let theme = selectedThemeClass || 'theme-1';
-
-                if (!clientName || !projectName) {
-                    alert("Client and Project details missing. Please fill them first.");
-                    return;
-                }
-
-                if (!theme) {
+            if (!clientName || !projectName) {
+                alert("Client and Project details missing. Please fill them first.");
+                return;
+            }
+            if (!theme) {
                     theme = 'theme-1';
                     setCookie('selectedTheme', theme, 7);
                     console.log('No theme selected. Defaulting to theme-1.');
-                }
-
-                // preview handled by preview shell now
-                createHTMLFilesDataForWebsiteLinks(theme);
+             }
+            createHTMLFilesDataForWebsiteLinks(theme);
             });
-
-
-
-
-                    $('#preview-mobile-btn').off('click').on('click', function () { //New code
-
-                        const clientName = getCookie("clientName");
-                        const projectName = getCookie("projectName");
-                        let theme = selectedThemeClass || 'theme-1';
-
-                        if (!clientName || !projectName) {
-                            alert("Client and Project details missing. Please fill them first.");
-                            return;
-                        }
-
-                        if (!theme) {
-                            theme = 'theme-1';
-                            setCookie('selectedTheme', theme, 7);
-                            console.log('No theme selected. Defaulting to theme-1.');
-                        }
-
-                        setCookie('previewMode', 'mobile', 1);
-                        createHTMLFilesDataForWebsiteLinks(theme);
-                    });
 
 
 // $('#export-btn').on('click', function () {

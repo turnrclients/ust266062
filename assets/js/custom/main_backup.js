@@ -6,6 +6,13 @@ const FOOTER_PAGES = "FooterPages";
 const PAGE_NAME = 'index.html';
 let CURRENT_MODE = '';
 
+// to show alert clients Details Model
+$('#createWebsite').on('click', function() {
+    $('#clientsDetailsModel').modal('show');
+    setCookie("createWebsite", "Yes", 7);
+
+});
+
 $(document).ready(function () {
     var createWebsiteFlag = getCookie("createWebsite");
     $('#multi-filter-container').hide();
@@ -97,24 +104,7 @@ $(document).ready(function () {
 
     loadAllRequiredContents();
 
-// to show export project button after checking globalHeader & globalFooter available in cookies
 
-function checkCookiesAndShowButton() {
-    if (getCookie(GLOBAL_HEADER_COOKIE) && getCookie(GLOBAL_FOOTER_COOKIE)) {
-        $('#export-btn').show();
-        $('#preview-site').show();
-
-    }
-
-}
-checkCookiesAndShowButton();
-const checkInterval = setInterval(function () {
-    if (getCookie(GLOBAL_HEADER_COOKIE) && getCookie(GLOBAL_FOOTER_COOKIE)) {
-        $('#export-btn').show();
-        $('#preview-site').show();
-        clearInterval(checkInterval);
-    }
-}, 100);
 
 
 });
@@ -160,17 +150,7 @@ function loadAllRequiredContents(){
     loadContent("header-38", "assets/page_components/Headers/header-38.html");
     loadContent("header-39", "assets/page_components/Headers/header-39.html");
     loadContent("header-40", "assets/page_components/Headers/header-40.html");
-    loadContent("header-41", "assets/page_components/Headers/header-41.html");
-    loadContent("header-42", "assets/page_components/Headers/header-42.html");
-    loadContent("header-43", "assets/page_components/Headers/header-43.html");
-    loadContent("header-44", "assets/page_components/Headers/header-44.html");
-    loadContent("header-45", "assets/page_components/Headers/header-45.html");
-    loadContent("header-46", "assets/page_components/Headers/header-46.html");
-    loadContent("header-47", "assets/page_components/Headers/header-47.html");
-    loadContent("header-48", "assets/page_components/Headers/header-48.html");
-    loadContent("header-49", "assets/page_components/Headers/header-49.html");
-    loadContent("header-50", "assets/page_components/Headers/header-50.html");
-    loadContent("header-51", "assets/page_components/Headers/header-51.html");
+
 
     loadContent("home-1", "assets/page_components/MiddleSections/Home/home-1.html");
     loadContent("home-2", "assets/page_components/MiddleSections/Home/home-2.html");
@@ -244,24 +224,6 @@ function loadAllRequiredContents(){
     loadContent("home-72", "assets/page_components/MiddleSections/Home/home-72.html");
     loadContent("home-73", "assets/page_components/MiddleSections/Home/home-73.html");
     loadContent("home-74", "assets/page_components/MiddleSections/Home/home-74.html");
-    loadContent("home-75", "assets/page_components/MiddleSections/Home/home-75.html");
-    loadContent("home-76", "assets/page_components/MiddleSections/Home/home-76.html");
-    loadContent("home-77", "assets/page_components/MiddleSections/Home/home-77.html");
-    loadContent("home-78", "assets/page_components/MiddleSections/Home/home-78.html");
-    loadContent("home-79", "assets/page_components/MiddleSections/Home/home-79.html");
-    loadContent("home-80", "assets/page_components/MiddleSections/Home/home-80.html");
-    loadContent("home-81", "assets/page_components/MiddleSections/Home/home-81.html");
-    loadContent("home-82", "assets/page_components/MiddleSections/Home/home-82.html");
-    loadContent("home-84", "assets/page_components/MiddleSections/Home/home-84.html");
-    loadContent("home-85", "assets/page_components/MiddleSections/Home/home-85.html");
-    loadContent("home-86", "assets/page_components/MiddleSections/Home/home-86.html");
-    loadContent("home-87", "assets/page_components/MiddleSections/Home/home-87.html");
-    loadContent("home-88", "assets/page_components/MiddleSections/Home/home-88.html");
-    loadContent("home-89", "assets/page_components/MiddleSections/Home/home-89.html");
-    loadContent("home-90", "assets/page_components/MiddleSections/Home/home-90.html");
-    loadContent("home-91", "assets/page_components/MiddleSections/Home/home-91.html");
-    loadContent("home-92", "assets/page_components/MiddleSections/Home/home-92.html");
-
 
     loadContent("about-1", "assets/page_components/MiddleSections/About/about-1.html");
     loadContent("about-2", "assets/page_components/MiddleSections/About/about-2.html");
@@ -309,31 +271,6 @@ function loadAllRequiredContents(){
     loadContent("about-44", "assets/page_components/MiddleSections/About/about-44.html");
     loadContent("about-45", "assets/page_components/MiddleSections/About/about-45.html");
     loadContent("about-46", "assets/page_components/MiddleSections/About/about-46.html");
-    loadContent("about-47", "assets/page_components/MiddleSections/About/about-47.html");
-    loadContent("about-48", "assets/page_components/MiddleSections/About/about-48.html");
-    loadContent("about-49", "assets/page_components/MiddleSections/About/about-49.html");
-    loadContent("about-50", "assets/page_components/MiddleSections/About/about-50.html");
-    loadContent("about-51", "assets/page_components/MiddleSections/About/about-51.html");
-    loadContent("about-52", "assets/page_components/MiddleSections/About/about-52.html");
-    loadContent("about-53", "assets/page_components/MiddleSections/About/about-53.html");
-    loadContent("about-54", "assets/page_components/MiddleSections/About/about-54.html");
-    loadContent("about-55", "assets/page_components/MiddleSections/About/about-55.html");
-    loadContent("about-56", "assets/page_components/MiddleSections/About/about-56.html");
-    loadContent("about-57", "assets/page_components/MiddleSections/About/about-57.html");
-    loadContent("about-58", "assets/page_components/MiddleSections/About/about-58.html");
-    loadContent("about-59", "assets/page_components/MiddleSections/About/about-59.html");
-    loadContent("about-60", "assets/page_components/MiddleSections/About/about-60.html");
-    loadContent("about-61", "assets/page_components/MiddleSections/About/about-61.html");
-    loadContent("about-62", "assets/page_components/MiddleSections/About/about-62.html");
-    loadContent("about-63", "assets/page_components/MiddleSections/About/about-63.html");
-    loadContent("about-64", "assets/page_components/MiddleSections/About/about-64.html");
-    loadContent("about-65", "assets/page_components/MiddleSections/About/about-65.html");
-    loadContent("about-66", "assets/page_components/MiddleSections/About/about-66.html");
-    loadContent("about-67", "assets/page_components/MiddleSections/About/about-67.html");
-    loadContent("about-68", "assets/page_components/MiddleSections/About/about-68.html");
-    loadContent("about-69", "assets/page_components/MiddleSections/About/about-69.html");
-    loadContent("about-71", "assets/page_components/MiddleSections/About/about-71.html");
-
 
     loadContent("slider-1", "assets/page_components/MiddleSections/Sliders/slider-1.html");
     loadContent("slider-2", "assets/page_components/MiddleSections/Sliders/slider-2.html");
@@ -353,10 +290,7 @@ function loadAllRequiredContents(){
     loadContent("events-2", "assets/page_components/MiddleSections/Events/events-2.html");
     loadContent("events-3", "assets/page_components/MiddleSections/Events/events-3.html");
     loadContent("events-4", "assets/page_components/MiddleSections/Events/events-4.html");
-    loadContent("events-5", "assets/page_components/MiddleSections/Events/events-5.html");
-    loadContent("events-6", "assets/page_components/MiddleSections/Events/events-6.html");
-    loadContent("events-7", "assets/page_components/MiddleSections/Events/events-7.html");
-
+    loadContent("events-5", "assets/page_components/MiddleSections/Events/events-5.html");5
     loadContent("news-1", "assets/page_components/MiddleSections/News/news-1.html");
     loadContent("news-2", "assets/page_components/MiddleSections/News/news-2.html");
     loadContent("news-3", "assets/page_components/MiddleSections/News/news-3.html");
@@ -378,10 +312,6 @@ function loadAllRequiredContents(){
     loadContent("testimonial-11", "assets/page_components/MiddleSections/Testimonial/testimonial-11.html");
     loadContent("testimonial-12", "assets/page_components/MiddleSections/Testimonial/testimonial-12.html");
     loadContent("testimonial-13", "assets/page_components/MiddleSections/Testimonial/testimonial-13.html");
-    loadContent("testimonial-14", "assets/page_components/MiddleSections/Testimonial/testimonial-14.html");
-    loadContent("testimonial-15", "assets/page_components/MiddleSections/Testimonial/testimonial-15.html");
-    loadContent("testimonial-16", "assets/page_components/MiddleSections/Testimonial/testimonial-16.html");
-    loadContent("testimonial-17", "assets/page_components/MiddleSections/Testimonial/testimonial-17.html");
 
     loadContent("pricing-1", "assets/page_components/MiddleSections/Pricing/pricing-1.html");
     loadContent("pricing-2", "assets/page_components/MiddleSections/Pricing/pricing-2.html");
@@ -392,8 +322,6 @@ function loadAllRequiredContents(){
     loadContent("pricing-7", "assets/page_components/MiddleSections/Pricing/pricing-7.html");
     loadContent("pricing-8", "assets/page_components/MiddleSections/Pricing/pricing-8.html");
     loadContent("pricing-9", "assets/page_components/MiddleSections/Pricing/pricing-9.html");
-    loadContent("pricing-10", "assets/page_components/MiddleSections/Pricing/pricing-10.html");
-    loadContent("pricing-11", "assets/page_components/MiddleSections/Pricing/pricing-11.html");
 
     loadContent("contact-1", "assets/page_components/MiddleSections/Contact/contact-1.html");
     loadContent("contact-2", "assets/page_components/MiddleSections/Contact/contact-2.html");
@@ -413,15 +341,6 @@ function loadAllRequiredContents(){
     loadContent("contact-16", "assets/page_components/MiddleSections/Contact/contact-16.html");
     loadContent("contact-17", "assets/page_components/MiddleSections/Contact/contact-17.html");
     loadContent("contact-18", "assets/page_components/MiddleSections/Contact/contact-18.html");
-    loadContent("contact-19", "assets/page_components/MiddleSections/Contact/contact-19.html");
-    loadContent("contact-20", "assets/page_components/MiddleSections/Contact/contact-20.html");
-    loadContent("contact-21", "assets/page_components/MiddleSections/Contact/contact-21.html");
-    loadContent("contact-22", "assets/page_components/MiddleSections/Contact/contact-22.html");
-    loadContent("contact-23", "assets/page_components/MiddleSections/Contact/contact-23.html");
-    loadContent("contact-24", "assets/page_components/MiddleSections/Contact/contact-24.html");
-    loadContent("contact-25", "assets/page_components/MiddleSections/Contact/contact-25.html");
-    loadContent("contact-26", "assets/page_components/MiddleSections/Contact/contact-26.html");
-    loadContent("contact-27", "assets/page_components/MiddleSections/Contact/contact-27.html");
 
     loadContent("blog-2", "assets/page_components/MiddleSections/Blogs/blog-2.html");
     loadContent("blog-6", "assets/page_components/MiddleSections/Blogs/blog-6.html");
@@ -434,29 +353,18 @@ function loadAllRequiredContents(){
     loadContent("blog-13", "assets/page_components/MiddleSections/Blogs/blog-13.html");
     loadContent("blog-14", "assets/page_components/MiddleSections/Blogs/blog-14.html");
     loadContent("blog-15", "assets/page_components/MiddleSections/Blogs/blog-15.html");
-    loadContent("blog-16", "assets/page_components/MiddleSections/Blogs/blog-16.html");
-    loadContent("blog-17", "assets/page_components/MiddleSections/Blogs/blog-17.html");
-    loadContent("blog-18", "assets/page_components/MiddleSections/Blogs/blog-18.html");
-    loadContent("blog-19", "assets/page_components/MiddleSections/Blogs/blog-19.html");
-    loadContent("blog-20", "assets/page_components/MiddleSections/Blogs/blog-20.html");
-    loadContent("blog-21", "assets/page_components/MiddleSections/Blogs/blog-21.html");
-    loadContent("blog-22", "assets/page_components/MiddleSections/Blogs/blog-22.html");
-    loadContent("blog-23", "assets/page_components/MiddleSections/Blogs/blog-23.html");
-    loadContent("blog-24", "assets/page_components/MiddleSections/Blogs/blog-24.html");
 
     loadContent("faq-1", "assets/page_components/MiddleSections/Faq/faq-1.html");
     loadContent("faq-2", "assets/page_components/MiddleSections/Faq/faq-2.html");
     loadContent("faq-3", "assets/page_components/MiddleSections/Faq/faq-3.html");
     loadContent("faq-4", "assets/page_components/MiddleSections/Faq/faq-4.html");
     loadContent("faq-5", "assets/page_components/MiddleSections/Faq/faq-5.html");
-    loadContent("faq-6", "assets/page_components/MiddleSections/Faq/faq-6.html");
 
     loadContent("newsletter-1", "assets/page_components/MiddleSections/Newsletter/newsletter-1.html");
     loadContent("newsletter-2", "assets/page_components/MiddleSections/Newsletter/newsletter-2.html");
     loadContent("newsletter-3", "assets/page_components/MiddleSections/Newsletter/newsletter-3.html");
     loadContent("newsletter-4", "assets/page_components/MiddleSections/Newsletter/newsletter-4.html");
     loadContent("newsletter-5", "assets/page_components/MiddleSections/Newsletter/newsletter-5.html");
-    loadContent("newsletter-6", "assets/page_components/MiddleSections/Newsletter/newsletter-6.html");
 
     loadContent("services-1", "assets/page_components/MiddleSections/Services/services-1.html");
     loadContent("services-2", "assets/page_components/MiddleSections/Services/services-2.html");
@@ -483,33 +391,10 @@ function loadAllRequiredContents(){
     loadContent("services-23", "assets/page_components/MiddleSections/Services/services-23.html");
     loadContent("services-24", "assets/page_components/MiddleSections/Services/services-24.html");
     loadContent("services-25", "assets/page_components/MiddleSections/Services/services-25.html");
-    loadContent("services-26", "assets/page_components/MiddleSections/Services/services-26.html");
-    loadContent("services-27", "assets/page_components/MiddleSections/Services/services-27.html");
-    loadContent("services-28", "assets/page_components/MiddleSections/Services/services-28.html");
-    loadContent("services-29", "assets/page_components/MiddleSections/Services/services-29.html");
-    loadContent("services-30", "assets/page_components/MiddleSections/Services/services-30.html");
-    loadContent("services-31", "assets/page_components/MiddleSections/Services/services-31.html");
-    loadContent("services-32", "assets/page_components/MiddleSections/Services/services-32.html");
-    loadContent("services-33", "assets/page_components/MiddleSections/Services/services-33.html");
-    loadContent("services-34", "assets/page_components/MiddleSections/Services/services-34.html");
-    loadContent("services-35", "assets/page_components/MiddleSections/Services/services-35.html");
-    loadContent("services-36", "assets/page_components/MiddleSections/Services/services-36.html");
-    loadContent("services-37", "assets/page_components/MiddleSections/Services/services-37.html");
-    loadContent("services-38", "assets/page_components/MiddleSections/Services/services-38.html");
-    loadContent("services-39", "assets/page_components/MiddleSections/Services/services-39.html");
-    loadContent("services-40", "assets/page_components/MiddleSections/Services/services-40.html");
-    loadContent("services-41", "assets/page_components/MiddleSections/Services/services-41.html");
-    loadContent("services-42", "assets/page_components/MiddleSections/Services/services-42.html");
-    loadContent("services-43", "assets/page_components/MiddleSections/Services/services-43.html");
-    loadContent("services-44", "assets/page_components/MiddleSections/Services/services-44.html");
 
     loadContent("ourteam-2", "assets/page_components/MiddleSections/OurTeam/our-team-2.html");
     loadContent("ourteam-3", "assets/page_components/MiddleSections/OurTeam/our-team-3.html");
-    loadContent("ourteam-4", "assets/page_components/MiddleSections/OurTeam/our-team-4.html");
-    loadContent("ourteam-5", "assets/page_components/MiddleSections/OurTeam/our-team-5.html");
-    loadContent("ourteam-6", "assets/page_components/MiddleSections/OurTeam/our-team-6.html");
-    loadContent("ourteam-7", "assets/page_components/MiddleSections/OurTeam/our-team-7.html");
-
+    loadContent("ourteam-4", "assets/page_components/MiddleSections/OurTeam/our-team-4.html");4
     loadContent("help-1", "assets/page_components/MiddleSections/Help/help-1.html");
     loadContent("help-2", "assets/page_components/MiddleSections/Help/help-2.html");
     // loadContent("middle", "middle-content.html");
@@ -523,16 +408,6 @@ function loadAllRequiredContents(){
     loadContent("footer-8", "assets/page_components/Footers/footer-8.html");
     loadContent("footer-9", "assets/page_components/Footers/footer-9.html");
     loadContent("footer-10", "assets/page_components/Footers/footer-10.html");
-    loadContent("footer-11", "assets/page_components/Footers/footer-11.html");
-    loadContent("footer-12", "assets/page_components/Footers/footer-12.html");
-    loadContent("footer-13", "assets/page_components/Footers/footer-13.html");
-    loadContent("footer-14", "assets/page_components/Footers/footer-14.html");
-    loadContent("footer-15", "assets/page_components/Footers/footer-15.html");
-    loadContent("footer-16", "assets/page_components/Footers/footer-16.html");
-    loadContent("footer-17", "assets/page_components/Footers/footer-17.html");
-    loadContent("footer-18", "assets/page_components/Footers/footer-18.html");
-    loadContent("footer-19", "assets/page_components/Footers/footer-19.html");
-    loadContent("footer-20", "assets/page_components/Footers/footer-20.html");
 
     return true;
 }
@@ -550,12 +425,23 @@ function loadContent(elementId, fileName) {
 
 
 
+// to show export project button after checking globalHeader & globalFooter available in cookies
+function checkCookiesAndShowButton() {
+    if (getCookie(GLOBAL_HEADER_COOKIE) && getCookie(GLOBAL_FOOTER_COOKIE)) {
+        $('#export-btn').show();
+        $('#preview-site').show();
 
+    }
 
-
-
-
-
+}
+checkCookiesAndShowButton();
+const checkInterval = setInterval(function () {
+    if (getCookie(GLOBAL_HEADER_COOKIE) && getCookie(GLOBAL_FOOTER_COOKIE)) {
+        $('#export-btn').show();
+          $('#preview-site').show();
+        clearInterval(checkInterval);
+    }
+}, 100);
 
 
 
@@ -577,139 +463,53 @@ if ($('#overlayStatus').val() === 'enabled') {
     $wrapper.css('pointer-events', 'auto');
 }
 
-
-///All buttons hidden initially
-$(document).ready(function() {
-    // Deselect all template options
-    $('input[name="templateOption"]').prop('checked', false);
-
-    // Select only the first template option
-    $('input[name="templateOption"]').first().prop('checked', true);
-
-    // Reset template card styling
-    $('.template-card').removeClass('active');
-    $('.template-card').first().addClass('active');
-
-    // Hide client/project info and action buttons
-    $('#clientDetailsDisplay').hide();
-    $('#backBtn, #previewBtn, #publishBtn ,#export-btn,#uploadBtn').hide();
-
+// Open modal on button click
+$('#createWebsite').on('click', function () {
+    $('#clientsDetailsModel').modal('show');
+    setCookie("createWebsite", "Yes", 7);
 });
 
+// Submit form
+$('#submitclientsDetails').on('click', function () {
+    var clientName = $('#clientName').val().trim();
+    var projectName = $('#projectName').val().trim();
 
+    if (clientName && projectName) {
+        setCookie("clientName", clientName, 7);
+        setCookie("projectName", projectName, 7);
 
-// Select template card logic
-function showActionButtons(selectedOption) {
-    if (selectedOption === 'existing') {
-        $('#backBtn, #previewBtn ,#export-btn').show();//New code
-        $('#publishBtn , #uploadBtn',).hide();
-    } else if (selectedOption === 'customize') {
-        $('#backBtn, #previewBtn, #publishBtn ,#uploadBtn' ).show();
-    }
-}
+        $('#clientsDetailsModel').modal('hide');
+        $('#createWebsite').hide();
 
+        $('.client_Name').text(clientName);
+        $('.project_Name').text(projectName);
+        $('#clientDetailsDisplay').show();
+        $('#deleteCurrentProject').show();
+        $('#page-type-section').show();
+        $("#page-type-section .accordion-header").trigger("click");
+        $('.pages-for[value="header"]').prop('checked', true).trigger('click');
 
-$(document).on('click', '.template-card', function() {
-    $('.template-card').removeClass('active');
-    $(this).addClass('active');
-    $(this).find('input[type="radio"]').prop('checked', true).trigger('change');
+        // Hide overlay after success
+        $overlay.hide();
+        $('#overlayStatus').val('disabled');
+        $wrapper.css('pointer-events', 'auto');
+        $('#headerMenuActionButtons').show();
 
-    const selectedOption = $(this).find('input[type="radio"]').val();
+        // $('#category-filter .dropdown-menu li[data-value="All"]').trigger('click');
 
-    // Show modal immediately if "customize" template is selected
-    if (selectedOption === 'customize') {
-        $('#clientsDetailsModel').modal('show');
+    } else {
+        alert("Please fill out both fields.");
     }
 });
 
-
-
-
-
-    $('.preview-template-btn').on('click', function () {
-      var href = $(this).closest('.template-image-wrap').find('a').attr('href');
-      window.open(href, '_blank');
-    });
-
-
-// Handle "Use existing template" button
-$('.use-template-btn').on('click', function () {
-    const selectedOption = $('input[name="templateOption"]:checked').val();
-
-    if (selectedOption === 'existing') {
-        // Show modal only for existing template
-        $('#clientsDetailsModel').modal('show');
-    }
-});
-
-// // Submit modal form logic
-// $('#submitclientsDetails').on('click', function() {
-//     const selectedOption = $('input[name="templateOption"]:checked').val();
-//     const clientName = $('#clientName').val().trim();
-//     const projectName = $('#projectName').val().trim();
-
-//     if (!clientName || !projectName) {
-//         alert("Please fill out both fields.");
-//         return;
-//     }
-
-//     // Set cookies
-//     setCookie("clientName", clientName, 7);
-//     setCookie("projectName", projectName, 7);
-
-//     // Hide modal & button
-//     $('#clientsDetailsModel').modal('hide');
-//     $('#createWebsite').hide();
-
-//     // Hide both radio buttons (the entire form group)
-//     $('.form-group.text-center').hide();
-
-//     // Display client/project info
-//     $('.client_Name').text(clientName);
-//     $('.project_Name').text(projectName);
-//     $('#clientDetailsDisplay').show();
-//     $('#deleteCurrentProject').show();
-//     $('#page-type-section').show();
-//     $("#page-type-section .accordion-header").trigger("click");
-//     $('.pages-for[value="header"]').prop('checked', true).trigger('click');
-//     $('.Template-selector-container').hide();
-
-//     // Show/hide sections based on selected option
-//     if (selectedOption === 'existing') {
-//         $('#templates').show();
-//         $('#wrapper').hide();
-//         $('#page-type-section').hide();
-//     } else {
-//         $('#wrapper').show();
-//         $('#templates').hide();
-//     }
-
-//     // Optional overlay handling
-//     if (typeof $overlay !== "undefined") {
-//         $overlay.hide();
-//         $('#overlayStatus').val('disabled');
-//         $wrapper.css('pointer-events', 'auto');
-//         $('#headerMenuActionButtons').show();
-//     }
-//         showActionButtons(selectedOption);
-
-// });
-
-// If modal is closed without submitting
+// If modal is closed *without submitting*, restore overlay
 $('#clientsDetailsModel').on('hidden.bs.modal', function () {
-        console.log('Modal hidden');
-
     if ($('#overlayStatus').val() === 'enabled') {
         $overlay.show();
         $wrapper.css('pointer-events', 'none');
         $('#headerMenuActionButtons').hide();
     }
 });
-
-
-
-
-
 
 
 // to delete all the cookies data to start fresh project
@@ -722,81 +522,18 @@ $('#deleteCurrentProject').on('click', function() {
 $('#cancelBtn').on('click', function () {
     $('#alertDialog').fadeOut();
 });
-
-//  reset function
-// Reusable reset function
-function resetProjectUI() {
-    // Delete all cookies
+$('#confirmBtn').on('click', function () {
     document.cookie.split(";").forEach(function (cookie) {
         const cookieName = cookie.split("=")[0].trim();
         deleteCookie(cookieName);
-        $('#clientsDetailsModel input').val("");
+$('#clientsDetailsModel input').val("");
     });
-
-    // Reset UI
     $('#clientDetailsDisplay').hide();
     $('#createWebsite').show();
     $('#deleteCurrentProject').hide();
     $('#page-type-section').hide();
-    $('#templates').hide();
-    $('#wrapper').hide();
-
-    // Hide all action buttons
-    $('#backBtn, #previewBtn, #publishBtn ,#export-btn, #uploadBtn').hide();
-
-
-    // Show radio buttons again
-    $('.form-group.text-center').show();
-    $('input[name="templateOption"]').prop('checked', false);
-    $('input[name="templateOption"]').first().prop('checked', true);
-
-    $('#alertDialog').fadeOut();
-
-    // Reload cleanly
-    setTimeout(() => {
-        location.reload();
-    }, 500);
-}
-
-// Confirm button click (as before)
-$('#confirmBtn').on('click', function () {
-    resetProjectUI();
-});
-
-// Back button click → show the same confirmation modal
-$('#backBtn').on('click', function () {
-    $('#alertDialog').fadeIn(); // show same modal as confirm
-});
-
-// Cancel button inside modal
-$('#cancelBtn').on('click', function () {
     $('#alertDialog').fadeOut();
 });
-
-// Confirm button inside modal behaves same for both
-$('#alertDialog #confirmBtn').on('click', function () {
-    resetProjectUI();
-});
-
-
-
-
-
-// $('#confirmBtn').on('click', function () {
-//     // Delete all cookies
-//     document.cookie.split(";").forEach(function (cookie) {
-//         const cookieName = cookie.split("=")[0].trim();
-//         deleteCookie(cookieName);
-//     });
-
-//     // Close dialog
-//     $('#alertDialog').fadeOut();
-
-//     // Reload page after short delay (for smoother UX)
-//     setTimeout(() => {
-//         location.reload();
-//     }, 500);
-// });
 
 function ChoosePagesForHeaderFooter(selectedValue) {
     CURRENT_MODE = selectedValue;
@@ -843,7 +580,6 @@ function ChoosePagesForHeaderFooter(selectedValue) {
             $('#selFooterName').text(cookieCurrentFooter);
             $('#footer-menu-details .accordion-header').addClass('active');
             $('#footer-menu-details .content').css('display', 'block');
-            $('.toggle-arrow').trigger('click');
         }
         $('#header-menu-details').hide();
            const componentsFooters = $('.footers_container .component');
@@ -2190,7 +1926,7 @@ function populateFooterDropdowns() {
                             </div>
                             <div>
                                 <input type="text" class="footer-input" value="${footerTitle}" style="display: none;">
-                                <button style="display: none; class="edit-footer-title-btn custom-btn-style renameBtnColor" title="Edit selected footer">
+                                <button class="edit-footer-title-btn custom-btn-style renameBtnColor" title="Edit selected footer">
                                    <i class="ri-pencil-fill"></i>
                                 </button>
 
@@ -2220,16 +1956,17 @@ function populateFooterDropdowns() {
                             <li value="${link}"></li>
                                    <center>
                                         <span class="footer-page-title">${link}</span>
+                                        <button class="save-link-btn custom-btn-style SaveChangesBtn" style="display: none;" title="Save link name">
+                                                <i class="ri-check-line"></i>
+                                        </button>
                                     </center>
                                     <input type="text" class="edit-link-input " value="${link}" style="display: none;">
-                                    <button class="save-link-btn custom-btn-style SaveChangesBtn" style="display: none;" title="Save link name">
-                                                <i class="ri-check-line"></i>
+                                    <button class="edit-link-btn custom-btn-style renameBtnColor" title="Edit selected link">
+                                       <i class="ri-pencil-fill"></i>
                                     </button>
+
                                     <button id="${link}" class="delete-footer-page-btn custom-btn-style deleteBtnColor" title="Delete selected link">
                                         <i class="ri-delete-bin-fill"></i>
-                                    </button>
-                                     <button class="edit-link-btn custom-btn-style renameBtnColor" title="Edit selected link">
-                                       <i class="ri-pencil-fill"></i>
                                     </button>
                                     <a class="design-selected-page" name="${link}" title="Design a link">
                                         Design Page
@@ -2322,71 +2059,54 @@ function populateFooterDropdowns() {
 // rename and Save footer Pages
 $(document).on('click', '.edit-link-btn', function () {
     const parent = $(this).closest('.SubPageContainer');
-    const $span = parent.find('.footer-page-title');
-    const $input = parent.find('.edit-link-input');
-
-    const linkTitle = $span.text().trim();
-
-    // populate & show the existing input, hide the span
-    $input.val(linkTitle).show();
-    $span.hide();
-
-    // toggle buttons
+    const linkTitle = parent.find('.footer-page-title').text();
+    parent.find('.footer-page-title').html(`<input type="text" class="edit-link-input" value="${linkTitle}">`);
     parent.find('.edit-link-btn').hide();
-    parent.find('.save-link-btn').show().data('old', linkTitle); // store old title on save button
+    parent.find('.save-link-btn').show();
 });
 
 $(document).on('click', '.save-link-btn', function () {
     const parent = $(this).closest('.SubPageContainer');
-    const $input = parent.find('.edit-link-input');
-    const linkInput = $input.val().trim();
-    const oldLinkTitle = $(this).data('old'); // read previously stored old title
-    const footerTitle = parent.closest('.footer-item').find('.footer-title').text().trim();
+    const linkInput = parent.find('.edit-link-input').val().trim();
+    const oldLinkTitle = parent.find('.edit-link-input').attr('value');
+    const footerTitle = parent.closest('.footer-item').find('.footer-title').text();
 
-    if (!linkInput) {
+    if (linkInput === "") {
         alert("Link title cannot be empty.");
         return;
     }
 
-    // update UI: show updated span and hide input
-    parent.find('.footer-page-title').text(linkInput).show();
-    $input.hide();
-
+    parent.find('.footer-page-title').text(linkInput);
     parent.find('.save-link-btn').hide();
     parent.find('.edit-link-btn').show();
 
-    // update footerPages cookie
     let footerPages = getFooterPagesFromCookie();
+
     if (footerPages && footerPages.length > 0) {
-        // Find the footer object by footerTitle (trim to avoid whitespace mismatch)
-        const footerObj = footerPages.find(obj => Object.prototype.hasOwnProperty.call(obj, footerTitle));
+        const footerObj = footerPages.find(obj => obj[footerTitle]);
+
         if (footerObj) {
             const footerLinksPages = footerObj[footerTitle];
             const linkIndex = footerLinksPages.indexOf(oldLinkTitle);
+
             if (linkIndex !== -1) {
                 footerLinksPages[linkIndex] = linkInput;
-                updateFooterPagesCookie(footerPages);
-            } else {
-                // fallback: try to match by trimmed values
-                const trimmedIndex = footerLinksPages.findIndex(v => v && v.trim() === (oldLinkTitle || '').trim());
-                if (trimmedIndex !== -1) {
-                    footerLinksPages[trimmedIndex] = linkInput;
-                    updateFooterPagesCookie(footerPages);
-                }
             }
         }
+
+        // Save the updated FooterPages cookie
+        updateFooterPagesCookie(footerPages);
     }
 
-    // update middle_sections cookie if oldLinkTitle exists
-    try {
-        let middleSections = JSON.parse(getCookie(GLOBAL_MIDDLE_SECTIONS_COOKIE) || '{}');
-        if (oldLinkTitle && Object.prototype.hasOwnProperty.call(middleSections, oldLinkTitle)) {
-            middleSections[linkInput] = middleSections[oldLinkTitle];
-            delete middleSections[oldLinkTitle];
-            setCookie(GLOBAL_MIDDLE_SECTIONS_COOKIE, JSON.stringify(middleSections), 365);
-        }
-    } catch (e) {
-        console.error("Failed to update middle sections cookie:", e);
+    // Update middle_sections cookie if oldLinkTitle exists in the cookie
+    let middleSections = getCookie(GLOBAL_MIDDLE_SECTIONS_COOKIE) || "{}";
+    middleSections = JSON.parse(middleSections);
+
+    if (middleSections.hasOwnProperty(oldLinkTitle)) {
+        middleSections[linkInput] = middleSections[oldLinkTitle];
+        delete middleSections[oldLinkTitle];
+
+        setCookie(GLOBAL_MIDDLE_SECTIONS_COOKIE, JSON.stringify(middleSections), 365);
     }
 });
 
@@ -2881,8 +2601,6 @@ function paginateComponents(componentsArray, itemsPerPage = 10) {
 }
 
 
-
-// Template Gallary
 
 
 

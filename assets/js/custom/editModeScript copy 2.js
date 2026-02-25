@@ -1,163 +1,4 @@
-// ==============Custom alert========================
-function injectCustomAlertCSS() {
-    if (document.getElementById('custom-alert-style')) return;
-
-    const style = document.createElement('style');
-    style.id = 'custom-alert-style';
-    style.innerHTML = `
-        .custom-alert-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 99997;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .custom-alert-backdrop.show {
-            opacity: 1;
-        }
-
-        .custom-alert-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -60%) scale(0.95);
-            opacity: 0;
-            z-index: 99998;
-            width: 100%;
-            max-width: 420px;
-            font-family: 'Quicksand', sans-serif;
-            transition: transform 0.35s ease, opacity 0.35s ease;
-            pointer-events: none;
-        }
-
-        .custom-alert-popup.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .custom-alert-content {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-            text-align: center;
-            padding: 30px 26px;
-        }
-
-        .custom-alert-message {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 22px;
-        }
-
-        .custom-alert-popup.success .custom-alert-message {
-            color: #28a745;
-        }
-
-        .custom-alert-popup.error .custom-alert-message {
-            color: #dc3545;
-        }
-
-        .custom-alert-ok-btn {
-            background: linear-gradient(135deg, #e39a4e, #fb1b1b);
-            color: #fff;
-            border: none;
-            padding: 10px 36px;
-            border-radius: 230px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-
-        .custom-alert-ok-btn:hover {
-            opacity: 0.9;
-        }
-
-        body.custom-alert-open {
-            overflow: hidden;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function showCustomAlertBox(type = 'error', message = 'Something went wrong', onOk) {
-
-    injectCustomAlertCSS();
-
-    // normalize type
-    type = (type === 'success') ? 'success' : 'error';
-
-    // fallback message safety
-    if (!message || message.trim() === '') {
-        message = 'Something went wrong';
-    }
-
-    const backdrop = document.createElement('div');
-    backdrop.className = 'custom-alert-backdrop show';
-
-    const popup = document.createElement('div');
-    popup.className = `custom-alert-popup ${type} show`;
-
-    popup.innerHTML = `
-        <div class="custom-alert-content">
-            <div class="custom-alert-message">${message}</div>
-            <button class="custom-alert-ok-btn">OK</button>
-        </div>
-    `;
-
-    document.body.appendChild(backdrop);
-    document.body.appendChild(popup);
-    document.body.classList.add('custom-alert-open');
-
-    function close() {
-        backdrop.remove();
-        popup.remove();
-        document.body.classList.remove('custom-alert-open');
-        if (typeof onOk === 'function') onOk();
-    }
-
-    popup.querySelector('.custom-alert-ok-btn').onclick = close;
-    backdrop.onclick = close;
-}
-
-// =========================================================
-
-
-var changedFiles = new Set();
-
-function syncChangedFilesToSession() {
-    sessionStorage.setItem(
-        "changedFiles",
-        JSON.stringify(Array.from(changedFiles))
-    );
-}
-
-function loadChangedFilesFromSession() {
-    const stored = sessionStorage.getItem("changedFiles");
-    if (stored) {
-        try {
-            changedFiles = new Set(JSON.parse(stored));
-        } catch (e) {
-            console.warn("Failed to restore changedFiles", e);
-            changedFiles = new Set();
-        }
-    }
-}
-
-function clearChangedFilesSession() {
-    changedFiles.clear();
-    sessionStorage.removeItem("changedFiles");
-}
-
-
 $(document).ready(function () {
-    loadChangedFilesFromSession();
-    console.log("Restored changed files:", Array.from(changedFiles));
-
-
     // alert("EditModeScript loaded");
     // Initialization
     var wrapper = $('#wrapper').addClass('editableSection');
@@ -236,8 +77,7 @@ function urlToFile(url, filename, callback) {
         }, 'image/jpeg');
     };
     img.onerror = function () {
-        showCustomAlertBox('error', 'Cannot load image from URL. Make sure it allows cross-origin access.');
-        console.log('Cannot load image from URL. Make sure it allows cross-origin access.');
+        alert('Cannot load image from URL. Make sure it allows cross-origin access.');
     };
     img.src = url;
 }
@@ -248,8 +88,7 @@ function uploadImgData(file, originalEl) {
     const clientProjectName = getCookie('clientProjectName');
 
     if (!clientName || !clientProjectName) {
-        showCustomAlertBox('error', 'clientName or clientProjectName missing in cookies');
-        console.log("clientName or clientProjectName missing in cookies");
+        alert("clientName or clientProjectName missing in cookies");
         return;
     }
 
@@ -257,8 +96,7 @@ function uploadImgData(file, originalEl) {
 
     const originalSrc = $(originalEl).attr('data-original-src');
     if (!originalSrc) {
-        showCustomAlertBox('error', 'data-original-src missing');
-        console.log("data-original-src missing");
+        alert("data-original-src missing");
         return;
     }
 
@@ -273,7 +111,6 @@ function uploadImgData(file, originalEl) {
         type: "POST",
         url: "/fuos/",
         data: formData,
-        headers: {"X-CSRFToken": getCookie('csrftoken')},
         processData: false,
         contentType: false,
         success: function () {
@@ -288,15 +125,9 @@ function uploadImgData(file, originalEl) {
                 $(originalEl).css('background-image',
                     `url("${previewPath}?v=${Date.now()}")`);
             }
-             //  TRACK IMAGE FILE
-             changedFiles.add(originalSrc);
-             syncChangedFilesToSession();
-
-             console.log('changedFiles: ', changedFiles)
     },
         error: function (xhr) {
-            showCustomAlertBox('error');
-            console.log("Upload error: " + xhr.responseText);
+            alert("Upload error: " + xhr.responseText);
         }
     });
 }
@@ -371,8 +202,7 @@ function openImagePicker(targetEl) {
     const originalPath = $(el).attr('data-original-src'); // KEEP OLD NAME
 
     if (!originalPath) {
-        showCustomAlertBox('error', 'data-original-src missing on image');
-        console.log("data-original-src missing on image");
+        alert("data-original-src missing on image");
         return;
     }
 
@@ -388,8 +218,7 @@ function openImagePicker(targetEl) {
         });
 
     } else {
-        showCustomAlertBox('error', 'Select an image first');
-        console.log("Select an image first");
+        alert("Select an image first");
         return;
     }
 
@@ -1150,8 +979,7 @@ function initializeInputEditor(anchor) {
         var newText = textInput.val().trim();
 
         if (!newText) {
-            showCustomAlertBox('error', 'Anchor text cannot be empty!');
-            console.log('Anchor text cannot be empty!');
+            alert('Anchor text cannot be empty!');
             return;
         }
 
@@ -1160,8 +988,7 @@ function initializeInputEditor(anchor) {
             .text(newText);
 
         container.remove();
-        showCustomAlertBox('success', 'Anchor updated successfully!');
-        console.log('Anchor updated successfully!');
+        alert('Anchor updated successfully!');
     });
 
     // Close button
@@ -1304,22 +1131,12 @@ function initializeInputEditor(anchor) {
         $('script[src="https://cdn.quilljs.com/1.3.6/quill.min.js"]').remove();
         $('script[src="assets/js/custom/main.js"]').remove();
         $('script[src="assets/js/custom/editModeScript.js"]').remove();
-        editedHTML.find('a.edit-site').removeClass('edit-site');
-        editedHTML.find('#page-header').removeClass('sticky-active');
-        editedHTML.find('[id="top-bar"]').remove();
-        const addressEl = document.querySelector('.business-address');
-        if (addressEl) {
-            const newAddress = addressEl.innerText.trim();
 
-             if (newAddress && newAddress !== originalBusinessAddress) {
-                        updateGoogleMapFromAddress();
-                        originalBusinessAddress = newAddress; // reset after save
-                        changesInMainContent = true; // ensure save
-                }
-        }
+
         // Clone the HTML and clean up
         var editedHTML = $('html').clone();
-
+        editedHTML.find('a.edit-site').removeClass('edit-site');
+        editedHTML.find('#top-bar').remove();
         // SCRIPTS WHICH HAVE BEEN ADDED FROM THE BACKEND HAS TO BE REMOVE BEFORE SAVE
         // editedHTML.find('script[src*="editmode"]').remove();
         // editedHTML.find('script[src*="editModeScript"]').remove();
@@ -1334,7 +1151,6 @@ function initializeInputEditor(anchor) {
         // $editedHTML.find('input.selectedPageName[type="hidden"]').remove();
         // $editedHTML.find('input.formFieldFileName').remove();
         // remove tempory added base urls for loading project locally
-        // editedHTML.find('head base').remove();
         // editedHTML.find('head base').remove();// removing the base <base href="/">
         // Remove unique IDs and buttons from each section-wrapper
         $('.section-wrapper').each(function() {
@@ -1358,9 +1174,6 @@ function initializeInputEditor(anchor) {
         if (changesInHeader && originalHeaderContent !== $('#header').html()) {
             var editedHeader = $('#header').html();
             filesDetailsMap["header.html"] = editedHeader;
-            changedFiles.add("header.html");
-            syncChangedFilesToSession();
-
             changesInHeader = false; // Reset flag
         }
 
@@ -1368,9 +1181,6 @@ function initializeInputEditor(anchor) {
         if (changesInFooter && originalFooterContent !== $('#footer').html()) {
             var editedFooter = $('#footer').html();
             filesDetailsMap["footer.html"] = editedFooter;
-            changedFiles.add("footer.html");
-            syncChangedFilesToSession();
-
             changesInFooter = false; // Reset flag
         }
 
@@ -1380,21 +1190,12 @@ function initializeInputEditor(anchor) {
             editedHTML.find('#footer').html('');
             editedHTML.find('input[type="text"].hidden.selectedPageName').remove();
 
-            var rawTitle = $('title').text().trim();
-
-            var pageName = rawTitle
-                .replace(/\s+/g, '_')
-                .replace(/[^a-zA-Z0-9_]/g, '');
-
-            var fileName = rawTitle.toLowerCase() === "home"
-                ? "index.html"
-                : pageName + ".html";
-
-            filesDetailsMap[fileName] = editedHTML.html();
-            changedFiles.add(fileName);
-            syncChangedFilesToSession();
-
-            console.log("changedFiles",changedFiles)
+            var pageTitle = $('title').text().trim().toLowerCase();
+            if (pageTitle === "home") {
+                filesDetailsMap["index.html"] = editedHTML.html();
+            } else {
+                filesDetailsMap[pageTitle + ".html"] = editedHTML.html();
+            }
             changesInMainContent = false;
         }
 
@@ -1405,106 +1206,9 @@ function initializeInputEditor(anchor) {
         // Reset flags after saving
         resetChangeFlags();
     });
-    let originalBusinessAddress = '';
 
-    $(document).ready(function () {
-        const addressEl = document.querySelector('.business-address');
-        if (addressEl) {
-            originalBusinessAddress = addressEl.innerText.trim();
-        }
-    });
     resetChangeFlags();
 });
-
-function updateGoogleMapFromAddress() {
-    const addressEl = document.querySelector('.business-address');
-    const mapIframe = document.querySelector('iframe[data-map="true"]');
-
-    if (!addressEl || !mapIframe) return;
-
-    const address = addressEl.innerText.trim();
-    if (!address) return;
-
-    const encoded = encodeURIComponent(address);
-
-    mapIframe.setAttribute('data-address', address);
-    mapIframe.setAttribute(
-        'src',
-        `https://maps.google.com/maps?q=${encoded}&z=15&output=embed`
-    );
-}
-
-
-// Platform domain rules   //New code
-const SOCIAL_DOMAIN_RULES = {
-    facebook: ['facebook.com', 'fb.com'],
-    instagram: ['instagram.com'],
-    youtube: ['youtube.com', 'youtu.be'],
-    twitter: ['twitter.com', 'x.com'],
-    linkedin: ['linkedin.com'],
-    whatsapp: ['wa.me', 'whatsapp.com']
-};
-
-// Enable social link editing in edit mode
-function enableSocialLinkEditing() {
-    // Prevent duplicate bindings
-    $(document).off('click.socialEdit');
-
-    // Handle social icon click
-    $(document).on('click.socialEdit', '.editable-social', function (e) {
-
-        if (!isEditingContent) return;
-
-        e.preventDefault();
-        e.stopImmediatePropagation(); //
-        changesInMainContent = true;
-        // Remove existing editor
-        $('.social-link-editor').remove();
-
-        const $link = $(this);
-        const platform = $link.data('platform');
-        const currentHref =$link.attr('hrefcustom') ||$link.attr('href') ||'';  // New code
-        const offset = $link.offset();
-
-        const editor = $(`
-            <div class="social-link-editor">
-                <input type="text" value="${currentHref}" placeholder="Enter ${platform} link" />
-                <button type="button">Update</button>
-            </div>
-        `);
-
-        $('body').append(editor);
-
-        editor.css({
-            top: offset.top - editor.outerHeight() - 8,
-            left: offset.left
-        });
-
-        // Prevent editor click from closing itself
-        editor.on('click', function (ev) {
-            ev.stopPropagation();
-        });
-
-        // Update link
-        editor.find('button').on('click', function () {
-            const newHref = editor.find('input').val().trim();
-            if (!newHref) return;
-
-            $link.attr('hrefcustom', newHref);   // store real value   // New Code
-            $link.attr('href', 'javascript:void(0)'); // disable navigation
-            changesInFooter = true;
-            editor.remove();
-
-        });
-    });
-
-    // Click outside → close editor
-    $(document).on('click.socialEdit', function () {
-        $('.social-link-editor').remove();
-    });
-}
-
-
 
 
 
@@ -1526,12 +1230,8 @@ function editClientSite(filesDetailsMap) {
             dataType: "text",
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(filesDetailsMap),
-            headers: {
-                "X-CSRFToken": getCookie('csrftoken')
-            },
             success: function (data) {
-                showCustomAlertBox('success', 'Uploaded the data');
-                console.log("Uploaded the data");
+                alert("Uploaded the data");
                 $('#loading-message').remove();
                // location.reload();
                 // $('#openIndex').click();
@@ -1540,8 +1240,8 @@ function editClientSite(filesDetailsMap) {
 
             },
             error: function (xhr, errmsg, err) {
-                showCustomAlertBox('error');
-                console.log("Error----" + xhr.responseText);
+
+                alert("Error----" + xhr.responseText);
                 $('#loading-message').remove();
             }
         });
@@ -2335,28 +2035,13 @@ $(document).on('click', '.category-sub a', function (e) {
         return src.substring(src.lastIndexOf('/') + 1);
         }
 
-        function getSanitizedImgPath(imgEl) {
-            let src = imgEl.src;
-            if (!src) return null;
-
-            // Parse full URL safely
-            const url = new URL(src, window.location.origin);
-
-            // Remove leading slash
-            let pathname = url.pathname.replace(/^\/+/, '');
-
-            return pathname;
-        }
-
-
         function uploadImagesFromAddedSections() {
 
             const clientName = getCookie('clientName');
             const clientProjectName = getCookie('clientProjectName');
 
             if (!clientName || !clientProjectName) {
-                showCustomAlertBox('error', 'clientName or clientProjectName missing in cookies');
-                console.log("clientName or clientProjectName missing in cookies");
+                alert("clientName or clientProjectName missing in cookies");
                 return;
             }
 
@@ -2368,11 +2053,6 @@ $(document).on('click', '.category-sub a', function (e) {
                     const imgSrc = imgEl.src;
 
                     if (!imgSrc || imgSrc.startsWith('data:')) return;
-                    let image_to_save = getSanitizedImgPath(imgEl)
-                    //  TRACK IMAGE FILE
-                        changedFiles.add(image_to_save);
-                        syncChangedFilesToSession();
-
 
                     urlToFile(imgSrc, getFileNameFromImgSrc(imgEl), function (file) {
 
@@ -2386,8 +2066,6 @@ $(document).on('click', '.category-sub a', function (e) {
                             type: "POST",
                             url: "fuos/",
                             data: formData,
-                            headers: {"X-CSRFToken": getCookie('csrftoken')},
-
                             processData: false,
                             contentType: false,
                             success: function () {
@@ -2527,7 +2205,6 @@ function generateUniqueId() {
 });
 
 
-
 function getCookie(name) {
     const cookies = document.cookie.split("; ");
 
@@ -2542,104 +2219,13 @@ function getCookie(name) {
     }
     return null;
 }
-function refreshMapFromStoredAddress() {// New code
-    const mapIframe = document.querySelector('iframe[data-map="true"]');
-    if (!mapIframe) return;
-
-    const address = mapIframe.getAttribute('data-address');
-    if (!address) return;
-
-    mapIframe.src =
-        `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
-}
-
-$(document).ready(function () { // New code
-    refreshMapFromStoredAddress();
-});
-
-//loader for uploadeditedproject
-function showProjectLoader(message = "Uploading changes, please wait…") {
-    // If loader already exists, just update message and show
-    let loader = $('#project-loader');
-    if (!loader.length) {
-        // Create the loader dynamically
-        loader = $(`
-            <div id="project-loader">
-                <div class="pl-circle"></div>
-                <div class="pl-text">${message}</div>
-            </div>
-        `).appendTo('body');
-
-        // Inject CSS dynamically if not present
-        if (!$('#project-loader-styles').length) {
-            const css = `
-                #project-loader {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: #0f172ae3;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-direction: column;
-                    z-index: 99999;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.4s ease;
-                }
-
-                #project-loader.active {
-                    opacity: 1;
-                    pointer-events: all;
-                }
-
-                .pl-circle {
-                    width: 80px;
-                    height: 80px;
-                    border: 6px solid #64748b;
-                    border-top-color: #38bdf8;
-                    border-radius: 50%;
-                    animation: spin 1s linear infinite;
-                    margin-bottom: 12px;
-                }
-
-                .pl-text {
-                    color: #e2e8f0;
-                    font-size: 18px;
-                    letter-spacing: 1px;
-                    font-family: sans-serif;
-                }
-
-                @keyframes spin {
-                    to { transform: rotate(360deg); }
-                }
-            `;
-            $('<style>', { id: 'project-loader-styles', text: css }).appendTo('head');
-        }
-    }
-
-    // Update message and show
-    loader.find('.pl-text').text(message);
-    loader.addClass('active');
-}
-
-function hideProjectLoader() {
-    const loader = $('#project-loader');
-    loader.removeClass('active');
-}
-
-//end of loader of code
 
 
 function uploadeditedproject() {
     const projectId = getCookie("UpdateContentAddSectionprojectId");
     const clientName = getCookie("clientName");
     const clientProjectName = getCookie("clientProjectName");
-    // alert('Changes are uploading please wait');
-    showProjectLoader("Uploading changes, please wait…");
-
+    alert('Changes are uploading please wait');
   //  SHOW LOADER
     $('#project-loader').addClass('active');
     $.ajax({
@@ -2647,34 +2233,26 @@ function uploadeditedproject() {
         type: "POST",
         data: {
             client_name: clientName,
-            client_project_name: clientProjectName,
-            changed_files: JSON.stringify(Array.from(changedFiles))
-
+            client_project_name: clientProjectName
         },
         beforeSend: function () {
             console.log("Uploading changes...");
         },
         success: function (response) {
              // HIDE LOADER
-              hideProjectLoader();
+        $('#project-loader').removeClass('active');
             if (response.status === 200) {
-                // alert('changes has been Uploaded.');
-                showCustomAlertBox('success', response.message);
-                console.log(response.message);
-                 // reset ONLY after successful upload
-                 clearChangedFilesSession();
+                alert('changes has been Uploaded.');
+                alert(response.message);
             } else {
-                showCustomAlertBox('error', response.message || 'Upload failed');
-                console.log(response.message || "Upload failed");
+                alert(response.message || "Upload failed");
             }
-
         },
         error: function (xhr) {
              // HIDE LOADER
-            hideProjectLoader();
+        $('#project-loader').removeClass('active');
             console.error(xhr.responseText);
-            showCustomAlertBox('error');
-            console.log("Server error occurred");
+            alert("Server error occurred");
         }
     });
 }
