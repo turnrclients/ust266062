@@ -40,7 +40,7 @@ function previewSections() {
                 <title>Preview</title>
                 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
                 <link rel="stylesheet" href="../../assets/css/bootstrap.css">
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css">
                 <link rel="stylesheet" href="../../assets/css/plugins.css">
                 <link rel="stylesheet" href="../../assets/css/style.css">
             </head>
